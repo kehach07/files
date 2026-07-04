@@ -7,12 +7,11 @@ import uuid
 app = FastAPI()
 
 ALLOWED_ORIGIN = "https://dash-vpbnks.example.com"
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[ALLOWED_ORIGIN],
+    allow_origins=["https://dash-vpbnks.example.com"],
     allow_credentials=False,
-    allow_methods=["GET"],
+    allow_methods=["GET", "OPTIONS"],
     allow_headers=["*"],
 )
 
@@ -35,7 +34,7 @@ def stats(values: str = Query(...)):
     nums = [int(x.strip()) for x in values.split(",") if x.strip()]
 
     return {
-        "email": "23f2000576@ds.study.iitm.ac.in",
+        "email": "kehachandrakar07@gmail.com",
         "count": len(nums),
         "sum": sum(nums),
         "min": min(nums),

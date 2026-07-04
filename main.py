@@ -42,11 +42,5 @@ def verify(request: TokenRequest):
         }
 
     except Exception as e:
-        return JSONResponse(
-            status_code=401,
-            content={
-                "valid": False,
-                "error": type(e).__name__,
-                "message": str(e)
-            },
-        )
+        print("JWT ERROR:", repr(e))
+        raise

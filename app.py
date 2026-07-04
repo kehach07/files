@@ -16,7 +16,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "https://app-npeqrw.example.com",
-        # Add the exam page origin if required by the platform.
+        "https://exam.sanand.workers.dev",   # Exam page origin
     ],
     allow_credentials=False,
     allow_methods=["*"],

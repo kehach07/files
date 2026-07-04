@@ -41,7 +41,6 @@ def root():
 # ==============================
 # Verify Endpoint
 # ==============================
-
 @app.post("/verify")
 def verify(request: TokenRequest):
     try:
@@ -60,37 +59,8 @@ def verify(request: TokenRequest):
             "aud": payload.get("aud"),
         }
 
-    except jwt.ExpiredSignatureError:
-        return JSONResponse(
-            status_code=401,
-            content={"valid": False},
-        )
-
-    except jwt.InvalidAudienceError:
-        return JSONResponse(
-            status_code=401,
-            content={"valid": False},
-        )
-
-    except jwt.InvalidIssuerError:
-        return JSONResponse(
-            status_code=401,
-            content={"valid": False},
-        )
-
-    except jwt.InvalidSignatureError:
-        return JSONResponse(
-            status_code=401,
-            content={"valid": False},
-        )
-
-    except jwt.InvalidTokenError:
-        return JSONResponse(
-            status_code=401,
-            content={"valid": False},
-        )
-
-    except Exception:
+    except Exception as e:
+        print(type(e).__name__, str(e))
         return JSONResponse(
             status_code=401,
             content={"valid": False},

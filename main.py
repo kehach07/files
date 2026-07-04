@@ -8,7 +8,7 @@ app = FastAPI()
 ISSUER = "https://idp.exam.local"
 AUDIENCE = "tds-gpqe27p0.apps.exam.local"
 
-PUBLIC_KEY = """-----BEGIN PUBLIC KEY-----
+PUBLIC_KEY = b"""-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2okOHspNjgA+2rTLbeuY
 cxiP/hG8C6Sb9iwg3yiLAA4HCnpITcbWCSelbvbYGuc3EbNy4xFyf5Cbj5DHJMID
 EkryOgyd2giIIIBOUBj8S63uGcnRpOBh9NFatfNwheKuzsPuVNldu6A9cNteNpXc
@@ -23,12 +23,11 @@ class TokenRequest(BaseModel):
 @app.get("/")
 def root():
     return {"message": "OAuth Token Verification Service is running"}
-
 @app.post("/verify")
-def verify(req: TokenRequest):
+def verify(request: TokenRequest):
     try:
         payload = jwt.decode(
-            req.token,
+            request.token,
             PUBLIC_KEY,
             algorithms=["RS256"],
             issuer=ISSUER,
@@ -43,8 +42,11 @@ def verify(req: TokenRequest):
         }
 
     except Exception as e:
-        print("JWT ERROR:", repr(e))
         return JSONResponse(
             status_code=401,
-            content={"valid": False},
+            content={
+                "valid": False,
+                "error": type(e).__name__,
+                "message": str(e)
+            },
         )
